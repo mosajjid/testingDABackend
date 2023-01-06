@@ -9,6 +9,7 @@ const User = require('./lib/User');
 const whitelist = require('./lib/Whitelist')
 const MintCollection = require('./lib/MintCollection');
 const Transaction = require('./lib/Transaction');
+
 // const Tracker = require('./lib/Tracker');
 module.exports = {
     Bid,
@@ -22,5 +23,6 @@ module.exports = {
     whitelist,
     Transaction,
     MintCollection,
+   
     // Tracker
 };

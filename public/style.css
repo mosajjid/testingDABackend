@@ -1,3 +1,12 @@
- .text-yellow {color: #681414 !important;} 
- .sidebar path { fill: #681414 !important; }
- .btn-admin {background: linear-gradient(180deg, #681414, #681414 )!important} .svg_icon path{ fill: #681414 !important;}
+ .text-yellow {color: #0f8497 !important;} 
+ .sidebar path { fill: #0f8497 !important; }
+ .btn-admin {background: linear-gradient(180deg, #0f8497, #6f1515 )!important;}
+ .svg_icon path{ fill: #0f8497 !important;}
+ .app-main{background-image:url('http://localhost:3000/image/main_bg.png') !important}
+ .btn-main{background: linear-gradient(180deg, #0f8497, #6f1515 )!important; border: 2px solid #0f8497 !important;}
+ .round-btn{background-color: #0f8497 !important;}
+ .title_color {color: #0f8497 !important;}
+ .btn-banner {    background: linear-gradient(180deg,#0f8497 56.77%, #6f1515 100%) !important;}
+ .main_btn{    background: linear-gradient(180deg,#0f8497 56.77%, #6f1515 100%) !important;}
+ .navbar_form{border: 2px solid #0f8497 !important;}
+ .wallet_box{ border: 1px solid  #0f8497!important;} 

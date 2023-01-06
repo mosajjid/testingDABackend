@@ -34,7 +34,7 @@ const helperFunctions = require("./app/controllers/helpers/functions");
 
 async function checkCollection() {
   try {
-    console.log("Checking for Collection Hash...");
+  
     Collection.find({ hashStatus: 0 },
       async function (err, resData) {
         if (err) {
@@ -89,7 +89,7 @@ async function checkCollection() {
 
 async function checkNFTs() {
   try {
-    console.log("Checking for NFT Hash...");
+   
     NFT.find({ hashStatus: 0 },
       async function (err, resData) {
         if (err) {
@@ -142,7 +142,7 @@ async function checkNFTs() {
 
 async function checkOrders() {
   try {
-    console.log("Checking for Order Hash...");
+   
     let currentTime = new Date().getTime();
     let minutes = 2 * 60 * 1000;
     let newDateTime = new Date(currentTime + minutes);
@@ -634,7 +634,7 @@ async function checkOrders() {
           }
         }
       })
-    console.log("updated through cron")
+ 
   } catch (error) {
     console.log("Error is", error);
   }
@@ -642,7 +642,7 @@ async function checkOrders() {
 
 async function checkOffers() {
   try {
-    console.log("Checking for Offer Hash...");
+    
     let currentTime = new Date().getTime();
     let minutes = 2 * 60 * 1000;
     let newDateTime = new Date(currentTime + minutes);
@@ -1021,17 +1021,17 @@ async function checkOffers() {
 
 async function checkCollectionStatus() {
   try {
-    console.log("Check Collection Status Import FAST API....");
+   
     Collection.find({ isImported: 1, progressStatus: 0 },
       async function (err, resData) {
         if (err) {
         } else {
           if (resData.length > 0) {
             for (const data of resData) {
-              console.log("Collection ID", data._id)
+              
               if (data.contractAddress !== "0x") {
                 let tokenURI = nftMetaBaseURL + "collections?ChainId=" + chainID + "&ContractAddress=" + data.contractAddress;
-                console.log("tokenURI - checkCollectionStatus API ", tokenURI)
+              
                 try {
                   https.get(tokenURI, (res) => {
                     let body = "";
@@ -1085,7 +1085,7 @@ async function checkCollectionStatus() {
 
 async function refreshCollectionMeta() {
   try {
-    console.log("Check Collection Status Import FAST API....");
+    //console.log("Check Collection Status Import FAST API....");
     Collection.find({ isImported: 1, progressStatus: 2 },
       async function (err, resData) {
         if (err) {
@@ -1279,7 +1279,7 @@ async function refreshCollectionMeta() {
 
 async function checkCollectionTotalSupply() {
   try {
-    console.log("Check Collection Total Supply FAST API....");
+  
     Collection.find({ isImported: 1, progressStatus: 2, $or: [{ cronjobStatus: "Updated" }, { cronjobStatus: "" }] },
       async function (err, resData) {
         if (err) {
@@ -1289,7 +1289,7 @@ async function checkCollectionTotalSupply() {
               let collectionID = await collectionRecord._id;
               Collection.find({ _id: mongoose.Types.ObjectId(collectionID) }, async function (err, collectionData) {
                 let tokenURI = nftMetaBaseURL + "collections?ChainId=" + chainID + "&ContractAddress=" + collectionData[0].contractAddress;
-                console.log("tokenURI - checkCollectionTotalSupply API ", tokenURI);
+                
                 try {
                   await https.get(tokenURI, (resData) => {
                     let body = "";

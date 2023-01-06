@@ -5,7 +5,7 @@ const adminMiddleware = require('../helpers/middleware');
 // Dashboard API
 router.get('/getDashboardData', adminMiddleware.verifyUserToken, adminController.getDashboardData);
 // Profile API
-router.put('/updateProfile', adminMiddleware.verifyUserToken, adminController.updateProfile);
+router.put('/updateProfile', adminController.updateProfile);
 
 // NFT APIs
 router.post('/nfts', adminMiddleware.verifyUserToken, adminController.nfts);
@@ -31,5 +31,7 @@ router.post("/updateAboutus", adminMiddleware.verifyUserToken, adminController.u
 router.post("/updateTerms", adminMiddleware.verifyUserToken, adminController.updateTerms);
 router.post("/updateFAQs", adminMiddleware.verifyUserToken, adminController.updateFAQs);
 router.post("/addColor", adminController.addColor);
+router.post("/changeBackground",adminController.changeBackground);
+router.post("/addLogo",adminController.addLogo);
 
 module.exports = router;

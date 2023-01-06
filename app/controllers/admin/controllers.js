@@ -9,7 +9,8 @@ const {
     Category,
     Aboutus,
     Terms,
-    FAQs
+    FAQs,
+   
 }=require('../../models');
 const {
     nodemailer
@@ -18,16 +19,16 @@ const validators=require("../helpers/validators");
 
 const storage=multer.diskStorage({
     destination: (req,file,callback) => {
-        callback(null,process.cwd()+'/r');
+        callback(null,process.cwd()+'/public');
     },
     filename: (req,file,callback) => {
-        callback(null,new Date().getTime()+'_'+file.originalname);
+        callback(null,file.originalname);
     }
 });
 let oMulterObj={
     storage: storage,
     limits: {
-        fileSize: 15*1024*1024 // 15mb
+        fileSize: 150*1024*1024 // 15mb
     },
 };
 
@@ -37,7 +38,8 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 });
 
-const upload=multer(oMulterObj).single('userProfile');
+const upload=multer(oMulterObj).single('logoImage');
+const logoUpload=multer(oMulterObj).single('logoImage');
 
 class AdminController {
 
@@ -45,14 +47,18 @@ class AdminController {
 
     }
 
-    async updateProfile(req,res,next) {
+    async updateProfile(req,res) {
 
         try {
-            if(!req.userId) return res.reply(messages.unauthorized());
+            //if(!req.userId) return res.reply(messages.unauthorized());
+            
+            console.log("updateeeeeeee")
 
             let oProfileDetails={};
 
             await upload(req,res,async (erro) => {
+                
+                console.log("update profile is called");
 
                 if(!req.body.sUserName) return res.reply(messages.not_found("User Name"));
                 if(!req.body.sFirstname) return res.reply(messages.not_found("First Name"));
@@ -69,19 +75,19 @@ class AdminController {
                         sLastname: req.body.sLastname
                     },
                 };
-                // if (req.file != undefined) {
+                 if (req.file != undefined) {
 
-                //     await cloudinary.uploader.upload(req.file.path, {
-                //         folder: "DecryptMarketplace/User_Profile"
-                //     })
-                //         .then(image => {
-                //             oProfileDetails["sProfilePicUrl"] = image.url;
-                //             fs.unlinkSync(req.file.path);
-                //         })
-                //         .catch(err => {
-                //             if (err) return res.reply(messages.error("Image Upload Failed"));
-                //         });
-                // }
+                     await cloudinary.uploader.upload(req.file.path, {
+                         folder: "DecryptMarketplace/User_Profile"
+                     })
+                         .then(image => {
+                             oProfileDetails["sProfilePicUrl"] = image.url;
+                             fs.unlinkSync(req.file.path);
+                         })
+                         .catch(err => {
+                             if (err) return res.reply(messages.error("Image Upload Failed"));
+                         });
+                 }
                 User.findByIdAndUpdate(req.userId,oProfileDetails,
                     (err,user) => {
                         if(err) return res.reply(messages.server_error());
@@ -89,6 +95,8 @@ class AdminController {
                         req.session["admin_firstname"]=req.body.sFirstname;
                         return res.reply(messages.updated('Admin Profile'));
                     });
+                
+                return res.reply(messages.updated('Admin Profile'));
             });
         } catch(error) {
             return res.reply(messages.server_error());
@@ -719,6 +727,42 @@ class AdminController {
             console.log("Errrrrr ",error);
             return res.reply(messages.server_error());
         }
+    }
+    async changeBackground(req,res){
+        
+        await upload(req,res,async (erro) => {
+                
+             
+            return res.reply(messages.updated('Admin Profile'));
+        });
+    }
+    
+    async addLogo(req,res){
+        try {
+            //if (!req.userId) return res.reply(messages.unauthorized());
+            //console.log("add logo is called----->",req.file);
+            //allowedMimes = [
+            //  "image/jpeg",
+            //  "video/mp4",
+            //  "image/jpg",
+            //  "image/webp",
+            //  "image/png",
+            //  "image/gif",
+            //  "model/glTF+json",
+            //  "model/gltf+json",
+            //  "model/gltf-binary",
+            //  "application/octet-stream",
+            //  "audio/mp3",
+            //  "audio/mpeg",
+            //];
+            //errAllowed = "JPG, JPEG, PNG, GIF, GLTF, GLB MP3, WEBP & MPEG";
+      
+            upload(req, res, async function (error) {
+                return res.reply(messages.updated('Admin Profile'));
+            });
+          } catch (error) {
+            return res.reply(messages.server_error());
+          }
     }
 
 }

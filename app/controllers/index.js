@@ -15,15 +15,13 @@ function Router() {
   // console.log("IP ", process.env.ORIGIN_IP+" "+process.env.ORIGIN_DOMAIN)
   
   this.app.use('/style/',function(req,res,next){
-
-    //const {theme,themeID} = req.params;
-    
+    //const {theme,themeID} = req.params;  
     console.log("working directory",process.cwd());
-    
     express.static(process.cwd()+"/public/")(req,res,next);
-    
     });
-  
+    
+    this.app.use('/image/', express.static('public'));
+    //this.app.use('/image', express.static('image'));
   
   this.corsOptions = {
     // origin: [process.env.ORIGIN_IP, process.env.ORIGIN_DOMAIN], 
